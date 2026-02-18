@@ -1,5 +1,3 @@
-
-
 import { CollectionItem } from "./collection-item";
 
 

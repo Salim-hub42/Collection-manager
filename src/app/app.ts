@@ -1,7 +1,8 @@
-import { Component, computed, signal, effect, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, model } from '@angular/core';
 import { CollectionItemCard } from './components/collection-item-card/collection-item-card';
 import { CollectionItem } from './models/collection-item';
 import { SearchBar } from './components/search-bar/search-bar';
+import { Collection } from './models/collection';
 
 @Component({
   selector: 'app-root',
@@ -12,35 +13,19 @@ import { SearchBar } from './components/search-bar/search-bar';
 })
 export class App {
 
+  search = model(''); //model est une fonction qui crée une propriété réactive dans un composant Angular. Elle permet de lier une variable à une valeur initiale et de suivre les changements de cette variable au fil du temps. Lorsque la valeur de la variable change, le composant peut réagir en conséquence, par exemple en mettant à jour l'affichage ou en déclenchant d'autres actions.
+
   soldat!: CollectionItem; //le point d'exclamation après le nom de la variable indique que cette variable est définie, même si elle n'est pas initialisée immédiatement. Cela permet d'éviter les erreurs de compilation liées à l'utilisation de variables non initialisées.
   boubou!: CollectionItem;
-  count = 0;
-  searchText = '';
+  gotrenk!: CollectionItem;
 
-  ItemList: CollectionItem[] = [];
-
-  //signal est une fonction qui crée une propriété réactive dans un composant Angular.
-  //  Elle permet de lier une variable à une valeur initiale (ici 0) et de suivre les changements de cette variable au fil du temps.
-  //  Lorsque la valeur de la variable change, le composant peut réagir en conséquence, par exemple en mettant à jour l'affichage ou en déclenchant d'autres actions.
-  selectedItemIndex = signal(0);
-
-
-  //computed est une fonction qui crée une propriété calculée dans un composant Angular.
-  //  Elle permet de définir une variable qui dépend d'autres variables et qui est automatiquement recalculée lorsque ces variables changent.
-  //  Dans ce cas, selectedItem est une propriété calculée qui retourne l'élément de la liste ItemList à l'index spécifié par selectedItemIndex. 
-  //  Chaque fois que selectedItemIndex change, selectedItem sera automatiquement mis à jour pour refléter le nouvel élément sélectionné.
-  selectedItem = computed(() => {
-    return this.ItemList[this.selectedItemIndex()];
-  });
-
-
-  //logEffect est une fonction qui crée un effet dans un composant Angular. Un effet est une fonction qui s'exécute chaque fois que les variables réactives utilisées à l'intérieur de l'effet changent.
-  //  Dans ce cas, logEffect est un effet qui affiche dans la console les valeurs de selectedItemIndex et selectedItem chaque fois que l'une de ces variables change. 
-  //  Cela permet de suivre les changements de l'index sélectionné et de l'élément sélectionné dans la liste.
-  logEffect = effect(() => {
-    console.log(this.selectedItemIndex(), this.selectedItem());
-  });
-
+  selectedCollection = signal<Collection | null>(null); //signal est une fonction qui crée une propriété réactive dans un composant Angular. Elle permet de lier une variable à une valeur initiale et de suivre les changements de cette variable au fil du temps. Lorsque la valeur de la variable change, le composant peut réagir en conséquence, par exemple en mettant à jour l'affichage ou en déclenchant d'autres actions.
+  collectionItems = computed(() => {
+    const allItems = this.selectedCollection()?.items;
+    return allItems?.filter(item => item.name.toLowerCase()
+      .includes(this.search().toLowerCase()
+      ));
+  }); //computed est une fonction qui crée une propriété calculée dans un composant Angular. Elle permet de définir une variable qui dépend d'autres variables réactives et qui est automatiquement recalculée lorsque ces variables changent. Dans ce cas, collectionItems est une variable calculée qui retourne les éléments de la collection sélectionnée ou un tableau vide si aucune collection n'est sélectionnée.
 
 
   constructor() { //le constructeur est une fonction spéciale qui est appelée lors de la création d'une instance de la classe.
@@ -60,19 +45,23 @@ export class App {
     this.boubou.price = 250;
     this.boubou.image = "img/boubou.png";
 
-    this.ItemList = [this.boubou, this.soldat]
+    this.gotrenk = new CollectionItem();
+    this.gotrenk.name = "Gotrenk";
+    this.gotrenk.rarity = "Légendaire";
+    this.gotrenk.description = "Un gotrenk légendaire, connu pour sa force et sa sagesse.";
+    this.gotrenk.price = 500;
+    this.gotrenk.image = "img/gotrenk.png";
+
+    const defaultCollection = new Collection();
+    defaultCollection.title = "Default Collection";
+    defaultCollection.items = [this.soldat, this.boubou, this.gotrenk];
+
+    this.selectedCollection.set(defaultCollection);
 
 
   }
 
-  incrementCount() {
-    this.count++;
-  }
 
-  nextItem() {
-    this.selectedItemIndex.update(index => (index + 1) % this.ItemList.length);
-    //** Méthode alternative en deux étapes **//
-    //const nextIndex = (this.selectedItemIndex()); 
-    //this.selectedItemIndex.set((nextIndex + 1) % 2);
-  }
+
+
 }

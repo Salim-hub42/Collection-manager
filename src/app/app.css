@@ -12,3 +12,7 @@
    flex-wrap: wrap;
    justify-content: center;
 }
+
+.text-red {
+   color: rgb(231, 101, 50);
+}

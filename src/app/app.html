@@ -1,12 +1,16 @@
 <header id="collection-header">
    <h1>My collection</h1>
    <div>
-      <app-search-bar (searchButtonClicked)="incrementCount()" [(search)]="searchText"></app-search-bar>
-      Cliked count: {{count}}<br>
-      Search text: {{searchText}}
+      <app-search-bar [(search)]="search"></app-search-bar>
+
    </div>
 </header>
 <section class="collection-grid">
-   <app-collection-item-card [item]="ItemList[selectedItemIndex()]"></app-collection-item-card>
+   @for (item of collectionItems(); track item.name){
+   <app-collection-item-card [item]="item"></app-collection-item-card>
+   } @empty {
+   <div>
+      <p class="text-red">No items found.</p>
+   </div>
+   }
 </section>
-<button (click)="nextItem()">Next</button>

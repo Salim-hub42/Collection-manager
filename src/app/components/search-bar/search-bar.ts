@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush // ChangeDetectionStrategy.OnPush est une stratégie de détection des changements dans Angular qui permet d'optimiser les performances en ne vérifiant les changements que lorsque les entrées du composant changent ou lorsqu'un événement est déclenché.
+  //  Cela peut améliorer les performances en évitant des vérifications inutiles, mais nécessite une gestion plus explicite des changements dans le composant.
 })
 export class SearchBar {
 
