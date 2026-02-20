@@ -16,3 +16,8 @@
 .text-red {
    color: rgb(231, 101, 50);
 }
+
+.result {
+   text-align: center;
+   margin-top: 1rem;
+}

@@ -8,9 +8,18 @@
 <section class="collection-grid">
    @for (item of collectionItems(); track item.name){
    <app-collection-item-card [item]="item"></app-collection-item-card>
-   } @empty {
-   <div>
-      <p class="text-red">No items found.</p>
-   </div>
    }
 </section>
+@let itemsCount = collectionItems()?.length;
+@if (itemsCount) {
+<div class="result">
+   <p>{{itemsCount}} result(s) found</p>
+</div>
+} @else {
+<div class="result">
+   <p>No results found</p>
+</div>
+}
+<div class="centerd">
+   <button (click)="addGenericItem()">Add item</button>
+</div>
