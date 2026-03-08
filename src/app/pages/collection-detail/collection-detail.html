@@ -1,0 +1,25 @@
+<header id="collection-header">
+   <h1>My collection</h1>
+   <div>
+      <app-search-bar [(search)]="search"></app-search-bar>
+
+   </div>
+</header>
+<section class="collection-grid">
+   @for (item of collectionItems(); track item.name){
+   <app-collection-item-card [item]="item"></app-collection-item-card>
+   }
+</section>
+@let itemsCount = collectionItems()?.length;
+@if (itemsCount) {
+<div class="centered">
+   <p>{{itemsCount}} result(s) found</p>
+</div>
+} @else {
+<div class="centered">
+   <p>No results found</p>
+</div>
+}
+<div class="centered">
+   <button (click)="addGenericItem()">Add item</button>
+</div>

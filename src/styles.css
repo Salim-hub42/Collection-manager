@@ -1,7 +1,7 @@
 body {
-      height: 100vh;
+      height: 200vh;
       background: linear-gradient(135deg,
-                  rgb(61, 70, 122) 0%,
-                  rgb(255, 255, 255) 50%,
-                  rgb(121, 69, 69) 100%);
+                  rgb(174, 137, 233) 0%,
+                  rgb(252, 252, 252) 50%,
+                  rgb(197, 125, 226) 100%);
 }

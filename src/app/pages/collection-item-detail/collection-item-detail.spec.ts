@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { CollectionItemDetail } from './collection-item-detail';
+
+describe('CollectionItemDetail', () => {
+  let component: CollectionItemDetail;
+  let fixture: ComponentFixture<CollectionItemDetail>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CollectionItemDetail]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(CollectionItemDetail);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

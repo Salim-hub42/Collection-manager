@@ -18,16 +18,27 @@ export class CollectionService {
   private boubou!: CollectionItem;
   private krilin!: CollectionItem;
 
+  /**
+   * Sauvegarde l'état actuel des collections dans le localStorage du navigateur.
+   */
   private save(): void {
     localStorage.setItem('collections', JSON.stringify(this.collections));
   }
 
+
+  /**
+   * Initialise le service en chargeant les collections depuis le localStorage.
+   */
   constructor() {
     this.load();
   }
 
 
 
+  /**
+   * Charge les collections depuis le localStorage. Si aucune collection n'est trouvée,
+   * génère des données factices par défaut.
+   */
   private load() {
     const collectionsJson = localStorage.getItem('collections');
     if (collectionsJson) {
@@ -39,20 +50,23 @@ export class CollectionService {
       });
 
       this.currentId = Math.max(...this.collections.map(collection => collection.id), 0) + 1;
-      this.currentItemIndex = this.collections.reduce(
-        (indexes: { [key: number]: number }, collection) => {
-          indexes[collection.id] = Math.max(...collection.items.map(item => item.id), 0) + 1;
+      this.currentItemIndex = this.collections.reduce(//reduce ici permet de construire un objet currentItemIndex où chaque clé est l'ID d'une collection et la valeur associée est l'index actuel des items dans cette collection.
+        (indexes: { [key: number]: number }, collection) => {// Pour chaque collection, on calcule l'index actuel des items en prenant le maximum des IDs des items dans la collection et en ajoutant 1 (pour le prochain item à ajouter).
+          indexes[collection.id] = Math.max(...collection.items.map(item => item.id), 0) + 1;// On met à jour l'objet indexes avec l'index actuel des items pour la collection courante.
           return indexes;
         }, {}
       );
     } else {
       this.generateDummyData();
       this.save();
-
     }
   }
 
 
+  /**
+   * Génère des données factices (collections et items) pour initialiser l'application
+   * lors de la première utilisation ou si aucune donnée n'est présente.
+   */
   generateDummyData() {
 
     this.soldat = new CollectionItem();
@@ -86,10 +100,17 @@ export class CollectionService {
 
   }
 
+  /**
+   * Retourne une copie de toutes les collections existantes.
+   */
   getAll(): Collection[] {
     return this.collections.map(collection => collection.copy());
   }
 
+  /**
+   * Retourne une copie d'une collection spécifique selon son ID.
+   * @param collectionId L'identifiant de la collection recherchée
+   */
   get(collectionId: number): Collection | null {
     const storedCopy = this.collections.find(
       collection => collection.id === collectionId
@@ -99,30 +120,40 @@ export class CollectionService {
     return storedCopy.copy();
   }
 
+  /**
+   * Ajoute une nouvelle collection à la liste et lui attribue un ID unique.
+   * @param collection La collection à ajouter (sans id ni items)
+   * @returns Une copie de la collection ajoutée
+   */
   add(collection: Omit<Collection, 'id' | 'items'>): Collection {
-
     const storedCopy = collection.copy();
     storedCopy.id = this.currentId;
     this.collections.push(storedCopy);
-
     this.currentItemIndex[storedCopy.id] = 1;
     this.currentId++;
     this.save();
-
     return storedCopy.copy();
   }
 
+  /**
+   * Met à jour une collection existante (hors items).
+   * @param collection La collection à mettre à jour (sans items)
+   * @returns Une copie de la collection mise à jour ou null si non trouvée
+   */
   update(collection: Omit<Collection, 'items'>): Collection | null {
     const storedCopy = this.collections.find(
       collection => collection.id === collection.id
     );
     if (!storedCopy) return null;
-
     Object.assign(storedCopy, collection);
     this.save();
     return storedCopy.copy();
   }
 
+  /**
+   * Supprime une collection selon son ID.
+   * @param collectionId L'identifiant de la collection à supprimer
+   */
   delete(collectionId: number): void {
     this.collections = this.collections.filter(
       collection => collection.id !== collectionId
@@ -130,45 +161,56 @@ export class CollectionService {
     this.save();
   }
 
+  /**
+   * Ajoute un nouvel item à une collection donnée.
+   * @param collection La collection cible
+   * @param item L'item à ajouter
+   * @returns Une copie de la collection mise à jour ou null si non trouvée
+   */
   addItem(collection: Collection, item: CollectionItem): Collection | null {
     const storedCollection = this.collections.find(
       collection => collection.id === collection.id
     );
     if (!storedCollection) return null;
-
     const storedItem = item.copy();
     storedItem.id = this.currentItemIndex[collection.id];
     storedCollection.items.push(storedItem);
-
     this.currentItemIndex[collection.id]++;
     this.save();
     return storedCollection.copy();
   }
 
+  /**
+   * Met à jour un item d'une collection donnée.
+   * @param collection La collection cible
+   * @param item L'item à mettre à jour
+   * @returns Une copie de la collection mise à jour ou null si non trouvée
+   */
   updateItem(collection: Collection, item: CollectionItem) {
     const storedCollection = this.collections.find(
       storedCollection => storedCollection.id === collection.id
     );
-
     if (!storedCollection) return null;
-
     const storedItemIndex = storedCollection.items.findIndex(
       storedItem => storedItem.id === item.id
     )
-
     if (storedItemIndex === -1) return null;
-
     storedCollection.items[storedItemIndex] = item.copy();
     this.save();
     return storedCollection.copy();
   }
 
+  /**
+   * Supprime un item d'une collection selon leurs IDs.
+   * @param collectionId L'identifiant de la collection
+   * @param itemId L'identifiant de l'item à supprimer
+   * @returns Une copie de la collection mise à jour ou null si non trouvée
+   */
   deleteItem(collectionId: number, itemId: number): Collection | null {
     const storedCollection = this.collections.find(
       storedCollection => storedCollection.id === collectionId
     );
     if (!storedCollection) return null;
-
     storedCollection.items = storedCollection.items.filter(
       item => item.id === itemId
     )
