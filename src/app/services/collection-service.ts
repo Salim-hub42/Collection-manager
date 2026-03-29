@@ -212,7 +212,7 @@ export class CollectionService {
     );
     if (!storedCollection) return null;
     storedCollection.items = storedCollection.items.filter(
-      item => item.id === itemId
+      item => item.id !== itemId
     )
     this.save();
     return storedCollection.copy();

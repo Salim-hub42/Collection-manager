@@ -1,7 +1,19 @@
+@import 'custom-theme.scss';
+
 body {
       height: 200vh;
       background: linear-gradient(135deg,
                   rgb(174, 137, 233) 0%,
                   rgb(252, 252, 252) 50%,
                   rgb(197, 125, 226) 100%);
+}
+
+html,
+body {
+      height: 100%;
+}
+
+body {
+      margin: 0;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
 }

@@ -4,22 +4,28 @@ import { CollectionItem } from '../../models/collection-item';
 import { Collection } from '../../models/collection';
 import { SearchBar } from '../../components/search-bar/search-bar';
 import { CollectionItemCard } from '../../components/collection-item-card/collection-item-card';
+import { Router } from '@angular/router';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-collection-detail',
-  imports: [SearchBar, CollectionItemCard],
+  imports: [SearchBar, CollectionItemCard, MatButtonModule],
   templateUrl: './collection-detail.html',
   styleUrl: './collection-detail.css',
 })
 export class CollectionDetail {
 
+
   private collectionService = inject(CollectionService);
+  private router = inject(Router);
+
 
   search = model('');
   selectedCollection = signal<Collection | null>(null);
   collectionItems = computed(() => {
-    const allItems = this.selectedCollection()?.items;
-    return allItems?.filter(item => item.name.toLowerCase().includes(this.search().toLowerCase()));
+    const allItems = this.selectedCollection()?.items ?? [];
+    const searchValue = this.search()?.toLowerCase() ?? '';
+    return allItems.filter(item => (item.name ?? '').toLowerCase().includes(searchValue));
   });
 
   constructor() {
@@ -37,4 +43,10 @@ export class CollectionDetail {
     }
   }
 
+
+
+  redirectToForm() {
+    this.router.navigate(['item']);
+
+  }
 }

@@ -1,0 +1,45 @@
+form {
+   max-width: 400px;
+   width: calc(100% - 1rem);
+   background-color: rgba(231, 207, 238, 0.473);
+   padding: 1rem;
+   border-radius: 5px;
+   margin-top: 20px;
+   border: 1px solid rgb(111, 29, 136);
+
+}
+
+.form-field {
+   display: flex;
+   flex-direction: column;
+   margin: 10px 0;
+
+}
+
+label {
+   font-size: small;
+}
+
+
+
+.error {
+   color: red;
+   font-size: small;
+}
+
+app-collection-item-card {
+   margin: 0px 0;
+}
+
+:host {
+   display: flex;
+   gap: 2.5rem;
+   justify-content: center;
+}
+
+.action-button {
+   display: flex;
+   gap: 1rem;
+
+
+}

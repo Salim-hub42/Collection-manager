@@ -1,20 +1,22 @@
-<div class="collection">
-   <article class="collection-item-card">
-      <span class="rarity-chip">{{item().rarity}}</span>
+<div class="redirec" (click)="navigateToDeyail()">
+   <div class="collection">
+      <article class="collection-item-card">
+         <span class="rarity-chip">{{item().rarity}}</span>
 
-      <figure class="item-image">
-         <img [src]="item().image" [alt]="item().name" alt="image" [class]="imageClass()" />
-      </figure>
-      <header class="item-header">
-         <h2 class="item-name">{{item().name}}</h2>
-      </header>
+         <figure class="item-image">
+            <img [src]="item().image" [alt]="item().name" alt="image" [class]="imageClass()" />
+         </figure>
+         <header class="item-header">
+            <h2 class="item-name">{{item().name}}</h2>
+         </header>
 
-      <p class="item-description">
-         {{item().description}}
-      </p>
+         <p class="item-description">
+            {{item().description}}
+         </p>
 
-      <footer>
-         <p class="item-price">{{item().price}} €</p>
-      </footer>
-   </article>
+         <footer>
+            <p class="item-price">{{item().price}} €</p>
+         </footer>
+      </article>
+   </div>
 </div>

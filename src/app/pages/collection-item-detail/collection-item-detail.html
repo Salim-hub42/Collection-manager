@@ -1,7 +1,63 @@
-@let selectedItemId = id();
-@if (selectedItemId){
-<p>Item {{selectedItemId}} !</p>
-<button [routerLink]="['/item',selectedItemId + 1]">Next</button>
-} @else {
-<p>New Item!</p>
-}
+<app-collection-item-card [item]="collectionItem()" />
+
+<form [formGroup]="itemFormGroup" (submit)="submit($event)">
+   <mat-form-field class="form-field">
+      <mat-label for="name">Name:</mat-label>
+      <input matInput id="name" name="name" formControlName="name" /><br />
+      @if (isFieldValid('name')) {
+      <mat-error class="error"> this field is required </mat-error>
+      }
+
+   </mat-form-field>
+   <mat-form-field class="form-field">
+      <mat-label for="description">Description:</mat-label>
+      <textarea matInput id="description" name="description" formControlName="description" rows="5"></textarea><br />
+      @if (isFieldValid('description')) {
+      <mat-error class="error"> this field is required </mat-error>
+      }
+
+   </mat-form-field>
+   <div class="form-field">
+      <button matButton="elevated" (click)="$event.preventDefault(); imageUpLoad.click()">
+         Upload Image: {{ imageUpLoad.files?.[0]?.name || '...'}}
+      </button>
+      <input hidden #imageUpLoad id="image" name="image" type="file" (change)="onFieldChange($event)" /><br />
+      @if (isFieldValid('image')) {
+      <div class="error"> this field is required </div>
+      }
+
+   </div>
+   <mat-form-field class="form-field">
+      <mat-label for="rarity">Rarity:</mat-label>
+      <mat-select id="rarity" name="rarity" formControlName="rarity">
+         @for (rarity of rarities(); track rarity) {
+         <mat-option [value]="rarity">{{ rarity }}</mat-option>
+         }
+      </mat-select>
+
+   </mat-form-field>
+   <mat-form-field class="form-field">
+      <mat-label for="price">Price:</mat-label>
+      <input matInput id="price" name="price" formControlName="price" type="number" /><br />
+      @if (isFieldValid('price')) {
+      @let priceFC = itemFormGroup.get('price');
+      @if (priceFC?.errors?.['min']) {
+      <mat-error class="error"> price must be greater than 0 </mat-error>
+      }@else {
+      <mat-error class="error"> this field is required </mat-error>
+      }
+      }
+
+   </mat-form-field>
+   <div class="action-button">
+      <button mat-flat-button color="primary" type="submit" [disabled]="itemFormGroup.invalid"
+         (click)="addItem()">Enregistrer</button>
+      @if(itemId()){
+      <button mat-flat-button color="warn" type="submit" [disabled]="itemFormGroup.invalid"
+         (click)="deleteItem()">Supprimer</button>
+      }
+
+      <button mat-flat-button color="accent" type="submit" [disabled]="itemFormGroup.invalid"
+         (click)="router.navigate(['/home'])">Retour</button>
+   </div>
+</form>

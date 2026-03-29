@@ -10,7 +10,7 @@
    <app-collection-item-card [item]="item"></app-collection-item-card>
    }
 </section>
-@let itemsCount = collectionItems()?.length;
+@let itemsCount = collectionItems().length;
 @if (itemsCount) {
 <div class="centered">
    <p>{{itemsCount}} result(s) found</p>
@@ -21,5 +21,5 @@
 </div>
 }
 <div class="centered">
-   <button (click)="addGenericItem()">Add item</button>
+   <button mat-button="filled" (click)="redirectToForm()">Ajouter un Objet</button>
 </div>

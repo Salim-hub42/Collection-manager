@@ -17,11 +17,8 @@ export class SearchBar {
   //  c'est un output qui émet un événement lorsque le bouton de recherche est cliqué.
   //  L'OutputEmitterRef est une référence à un émetteur d'événements qui peut être utilisé pour émettre des événements personnalisés à partir du composant.
 
-  searchButtonClicked: OutputEmitterRef<void> = output<void>();
 
-  searchClicked() {
-    this.searchButtonClicked.emit();
-  }
+
 
 
 
