@@ -57,7 +57,6 @@
          (click)="deleteItem()">Supprimer</button>
       }
 
-      <button mat-flat-button color="accent" type="submit" [disabled]="itemFormGroup.invalid"
-         (click)="router.navigate(['/home'])">Retour</button>
+      <button mat-flat-button color="accent" type="submit" (click)="router.navigate(['/home'])">Retour</button>
    </div>
 </form>

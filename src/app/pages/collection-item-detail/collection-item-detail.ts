@@ -2,7 +2,7 @@ import { Component, inject, input, signal, effect, OnDestroy } from '@angular/co
 import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { CollectionItemCard } from '../../components/collection-item-card/collection-item-card';
 import { Router } from '@angular/router';
-import { CollectionService } from '../../services/collection-service';
+import { CollectionService } from '../../services/collection/collection-service';
 import { CollectionItem } from '../../models/collection-item';
 import { Collection } from '../../models/collection';
 import { Subscription } from 'rxjs';

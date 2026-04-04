@@ -1,5 +1,5 @@
 import { Component, inject, model, signal, computed } from '@angular/core';
-import { CollectionService } from '../../services/collection-service';
+import { CollectionService } from '../../services/collection/collection-service';
 import { CollectionItem } from '../../models/collection-item';
 import { Collection } from '../../models/collection';
 import { SearchBar } from '../../components/search-bar/search-bar';

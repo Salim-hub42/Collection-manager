@@ -1,0 +1,125 @@
+#page-container {
+
+   display: flex;
+   flex-direction: row;
+}
+
+nav {
+   width: 220px;
+   min-height: 90vh;
+   background: #ac59a54b;
+   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
+   display: flex;
+   flex-direction: column;
+   align-items: stretch;
+   padding: 18px 8px 0 8px;
+   position: relative;
+   z-index: 10;
+   justify-content: flex-start;
+}
+
+header {
+   margin-bottom: 28px;
+}
+
+.avatar {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.avatar-circle {
+   width: 38px;
+   height: 38px;
+   border-radius: 50%;
+   background: #fff;
+   border: 2px solid #bdbdbd;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-weight: 600;
+   font-size: 1.1rem;
+   color: #222;
+   margin-right: 0px;
+}
+
+.avatar-name {
+   font-weight: 600;
+   font-size: 1.1rem;
+   color: #222;
+}
+
+ul {
+   list-style: none;
+   padding: 0;
+   margin: 0 0 32px 0;
+   flex: 1;
+}
+
+li.selected {
+   background: #c0873c34;
+   border-radius: 10px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+   padding: 14px 10px;
+   margin-bottom: 16px;
+   border: 1.5px solid #bdbdbd;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.dot {
+   width: 14px;
+   height: 14px;
+   border-radius: 50%;
+   background: #e74c3c;
+   margin-right: 8px;
+   border: 2px solid #fff;
+   box-shadow: 0 0 2px #bdbdbd;
+}
+
+.collection {
+   display: flex;
+   flex-direction: column;
+}
+
+.name {
+   font-weight: 600;
+   font-size: 1rem;
+   color: #222;
+}
+
+.items-count {
+   font-size: 0.92rem;
+   color: #1b1b1b;
+}
+
+footer {
+   margin-top: auto;
+   position: relative;
+}
+
+button.danger {
+   width: 95%;
+   padding: 13px 0;
+   background: #d32f2f;
+   color: #fff;
+   border: none;
+   border-radius: 22px;
+   font-size: 1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: background 0.2s;
+   margin: 0 auto 8px auto;
+   display: block;
+}
+
+button.danger:hover {
+   background: #b71c1c;
+}
+
+main {
+   flex: 1;
+   padding: 20px;
+   margin-left: 220px;
+}
