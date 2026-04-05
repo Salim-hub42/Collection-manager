@@ -6,11 +6,11 @@
    </div>
 </header>
 <section class="collection-grid">
-   @for (item of collectionItems(); track item.name){
+   @for (item of displayedItems(); track item.name){
    <app-collection-item-card [item]="item"></app-collection-item-card>
    }
 </section>
-@let itemsCount = collectionItems().length;
+@let itemsCount = displayedItems().length;
 @if (itemsCount) {
 <div class="centered">
    <p>{{itemsCount}} result(s) found</p>
@@ -21,5 +21,5 @@
 </div>
 }
 <div class="centered">
-   <button mat-button="filled" (click)="redirectToForm()">Ajouter un Objet</button>
+   <button mat-button="filled" (click)="addItem()">Ajouter un Objet</button>
 </div>

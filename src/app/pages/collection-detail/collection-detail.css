@@ -1,9 +1,22 @@
+:host {
+   display: block;
+   width: 100%;
+   box-sizing: border-box;
+   padding: 0 1.5rem;
+}
+
 #collection-header {
    display: flex;
    align-items: center;
    justify-content: space-between;
-   margin: 0 1rem;
+   width: 100%;
 }
+
+#collection-header>div {
+   margin-left: auto;
+}
+
+
 
 .collection-grid {
    display: flex;

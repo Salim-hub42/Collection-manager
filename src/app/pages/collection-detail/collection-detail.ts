@@ -1,11 +1,13 @@
-import { Component, inject, model, signal, computed } from '@angular/core';
+import { Component, inject, model, signal, computed, input, effect } from '@angular/core';
+import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CollectionService } from '../../services/collection/collection-service';
 import { CollectionItem } from '../../models/collection-item';
 import { Collection } from '../../models/collection';
 import { SearchBar } from '../../components/search-bar/search-bar';
 import { CollectionItemCard } from '../../components/collection-item-card/collection-item-card';
 import { Router } from '@angular/router';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
+import { filter, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-collection-detail',
@@ -15,38 +17,50 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 })
 export class CollectionDetail {
 
-
-  private collectionService = inject(CollectionService);
   private router = inject(Router);
-
-
+  collectionService = inject(CollectionService);
   search = model('');
+
+  collectionId = input<number | undefined, string | undefined>(undefined, {
+    alias: 'id',
+    transform: (id: string | undefined) => id ? parseInt(id) : undefined
+  });
+
+  selectedCollection$ = toObservable(this.collectionId).pipe(
+    takeUntilDestroyed(),
+    filter(id => id !== undefined),
+    switchMap(id => this.collectionService.get(id)),
+    tap(collection => {
+      this.selectedCollection.set(collection);
+    })
+  );
+
   selectedCollection = signal<Collection | null>(null);
-  collectionItems = computed(() => {
-    const allItems = this.selectedCollection()?.items ?? [];
-    const searchValue = this.search()?.toLowerCase() ?? '';
-    return allItems.filter(item => (item.name ?? '').toLowerCase().includes(searchValue));
+  displayedItems = computed(() => {
+    const allItems = this.selectedCollection()?.items || [];
+    return allItems.filter(item =>
+      item.name.toLowerCase().includes((this.search() || '').toLocaleLowerCase()
+      )
+    );
   });
 
   constructor() {
-    const allCollections = this.collectionService.getAll();
-    if (allCollections.length > 0) {
-      this.selectedCollection.set(allCollections[0]);
-    }
+    effect(() => {
+      if (!this.collectionId() && this.collectionService.selectedCollection()) {
+        this.router.navigate(['collection', this.collectionService.selectedCollection()?.id]);
+      }
+    })
+    this.selectedCollection$.subscribe();
   }
 
-  addGenericItem() {
-    const collection = this.selectedCollection();
-    if (collection) {
-      const storedCollection = this.collectionService.addItem(collection, new CollectionItem());
-      this.selectedCollection.set(storedCollection);
-    }
-  }
-
-
-
-  redirectToForm() {
+  addItem() {
     this.router.navigate(['item']);
-
   }
+
+
+
+  openItem(item: CollectionItem) {
+    this.router.navigate(['item', item.id]);
+  }
+
 }

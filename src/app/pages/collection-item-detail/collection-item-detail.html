@@ -30,7 +30,7 @@
    <mat-form-field class="form-field">
       <mat-label for="rarity">Rarity:</mat-label>
       <mat-select id="rarity" name="rarity" formControlName="rarity">
-         @for (rarity of rarities(); track rarity) {
+         @for (rarity of Rarity(); track rarity) {
          <mat-option [value]="rarity">{{ rarity }}</mat-option>
          }
       </mat-select>

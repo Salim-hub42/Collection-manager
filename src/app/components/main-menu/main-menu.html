@@ -1,0 +1,29 @@
+@let currentUser = user();
+@if (currentUser) {
+<nav>
+   <header>
+      <div class="avatar">
+         <span class="avatar-circle">
+            {{ currentUser.firstname.charAt(0) }}
+         </span>
+         <span class="avatar-name">
+            {{ currentUser.firstname }} {{ currentUser.lastname }}
+         </span>
+      </div>
+   </header>
+
+   <ul>
+      <li class="selected">
+         <div class="dot"></div>
+         <div class="collection">
+            <div class="name">Default Collection</div>
+            <div class="items-count">{{ selectedCollection()?.items?.length ?? 0 }} items</div>
+         </div>
+      </li>
+   </ul>
+
+   <footer>
+      <button mat-button="text" class="danger" (click)="logout()">Logout</button>
+   </footer>
+</nav>
+}

@@ -16,8 +16,14 @@ export class CollectionItemCard {
   item = input.required<CollectionItem>();
   imageClass = input('');
 
-  navigateToDeyail() {
-    this.router.navigate(['item', this.item().id]);
+  navigateToDetail() {
+    const itemId = this.item().id;
+
+    if (!Number.isFinite(itemId) || itemId <= 0) { // Vérification de la validité de l'ID de l'item avant de tenter la navigation
+      return;
+    }
+
+    this.router.navigate(['item', itemId]);
   }
 
 }

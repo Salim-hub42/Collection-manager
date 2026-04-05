@@ -51,7 +51,7 @@ export class Login implements OnDestroy {
 
 
   navigateHome() {
-    this.router.navigate(['home']);
+    this.router.navigate(['/']); // Navigation vers la page d'accueil après la connexion réussie
   }
 
 
